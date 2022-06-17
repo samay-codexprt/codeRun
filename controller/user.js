@@ -71,8 +71,8 @@ const generateRandomCode = (len, prefix = "") => {
 };
 
 router.post("/verify-otp", async (req, res) => {
-  const { otp } = req.body;
-  const id = req.body.uuid;
+  const { otp, uuid } = req.body;
+  const id = uuid;
   const op = await client.get(id);
 
   const randomOtp = JSON.parse(op);
