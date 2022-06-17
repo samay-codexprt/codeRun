@@ -130,4 +130,32 @@ router.post("/remaining", async (req, res) => {
   }
 });
 
+router.post("/get-all-user", async (req, res) => {
+  const id = req.body.id;
+  console.log("herrtye");
+  const getUser = await User.find({});
+  console.log(getUser);
+  const ab = await client.setEx(
+    id,
+    250,
+    JSON.stringify(getUser),
+
+    (err, reply) => {
+      if (err) {
+        return console.log(err.message);
+      } else {
+        return console.log(reply);
+      }
+    }
+  );
+  console.log("ab:", ab);
+  const user = await client.get(id);
+  const users = JSON.parse(user);
+  console.log("users", users);
+  res.json({
+    success: true,
+    data: users,
+  });
+});
+
 module.exports = router;
